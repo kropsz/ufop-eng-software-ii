@@ -21,5 +21,5 @@ data class Client(
     val points: Int,
 
     @OneToMany(mappedBy = "client")
-    val rewards: List<Reward> = listOf()
+    val rewards: List<Reward>
 )
