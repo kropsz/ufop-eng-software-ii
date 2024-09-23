@@ -3,11 +3,14 @@ package com.kropsz.market.utils.mapper.impl
 import com.kropsz.market.domain.model.Client
 import com.kropsz.market.utils.mapper.Mapper
 import com.kropsz.market.web.dto.ClientDto
+import org.springframework.stereotype.Component
 
+@Component
 class ClientMapper: Mapper<ClientDto, Client> {
     override fun toEntity(dto: ClientDto): Client {
         return Client(
             name = dto.name!!,
+            password = dto.password!!,
             email = dto.email!!,
             phone = dto.phone!!,
             address = dto.address!!,
