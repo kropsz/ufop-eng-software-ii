@@ -11,6 +11,7 @@ data class Client(
     val id: UUID? = null,
 
     val name: String,
+    var password: String,
     val email: String,
     val phone: String,
     val address: String,
@@ -18,8 +19,8 @@ data class Client(
     @Column(name = "cpf", unique = true)
     val cpf: String,
 
-    val points: Int,
+    var points: Int,
 
     @OneToMany(mappedBy = "client")
-    val rewards: List<Reward>
+    var rewards: List<Reward>
 )
