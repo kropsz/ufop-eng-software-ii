@@ -1,6 +1,7 @@
 package com.kropsz.market.service.impl
 
 import com.kropsz.market.domain.model.NFE
+import com.kropsz.market.domain.model.PointsHistory
 import com.kropsz.market.domain.model.Reward
 import com.kropsz.market.domain.repository.ClientRepository
 import com.kropsz.market.domain.repository.NfeRepository
@@ -10,6 +11,7 @@ import com.kropsz.market.service.NfeService
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.UUID
 
 @Service
@@ -24,7 +26,16 @@ class NfeServiceImpl(
         val client = clientRepository.findById(clientID)
             .orElseThrow { throw EntityNotFoundException("Client not found") }
         client.points += calculatePoints(nfe.value)
+
+        val pointsHistory = PointsHistory(
+            pointsAdded = calculatePoints(nfe.value),
+            nfeId = nfe.id!!,
+            date = LocalDateTime.now()
+        )
+
+        client.addPointsHistory(pointsHistory)
         clientRepository.save(client)
+
         return nfeRepository.save(nfe)
     }
 

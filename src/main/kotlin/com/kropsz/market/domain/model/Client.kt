@@ -22,7 +22,13 @@ data class Client(
     var points: Int,
 
     @OneToMany(mappedBy = "client")
-    var rewards: MutableList<Reward> = mutableListOf()
+    var rewards: MutableList<Reward> = mutableListOf(),
+
+    @ElementCollection
+    @CollectionTable(name = "tb_points_history",
+        joinColumns = [JoinColumn(name = "client_id")])
+    var pointsHistory: MutableList<PointsHistory> = mutableListOf()
+
 ) {
     fun addPoints(points: Int) {
         this.points += points
@@ -34,5 +40,9 @@ data class Client(
 
     fun addReward(reward: Reward) {
         rewards.add(reward)
+    }
+
+    fun addPointsHistory(history: PointsHistory) {
+        pointsHistory.add(history)
     }
 }
