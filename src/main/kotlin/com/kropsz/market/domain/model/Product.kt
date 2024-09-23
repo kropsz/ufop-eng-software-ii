@@ -15,7 +15,7 @@ data class Product(
     val description: String,
 
     @Column(name = "price_in_points")
-    val priceInPoints: Double,
+    val priceInPoints: Int,
 
     val stock: Int,
 

@@ -14,7 +14,9 @@ data class NFE(
     val value: Double,
 
     @ElementCollection
-    val products: List<String> = listOf(),
+    @MapKeyColumn(name = "product_value")
+    @Column(name = "product_name")
+    val products: Map<Double, String> = mapOf(),
 
     val date: LocalDateTime,
 
