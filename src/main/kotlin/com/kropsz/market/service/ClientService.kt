@@ -13,7 +13,4 @@ interface ClientService {
 
     fun findById(id: UUID): Client
 
-    fun addPoints(id: UUID, points: Int): Client
-
-    fun removePoints(id: UUID, points: Int): Client
 }

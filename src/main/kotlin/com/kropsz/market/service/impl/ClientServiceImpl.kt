@@ -30,19 +30,5 @@ class ClientServiceImpl (
         return clientRepository.findById(id)
             .orElseThrow { throw EntityNotFoundException("Client not found") }
     }
-
-    override fun addPoints(id: UUID, points: Int): Client {
-        val client = findById(id)
-        client.points += points
-        return clientRepository.save(client)
-    }
-
-    override fun removePoints(id: UUID, points: Int): Client {
-        val client = findById(id)
-        client.points -= points
-        return clientRepository.save(client)
-    }
-
-
 }
 

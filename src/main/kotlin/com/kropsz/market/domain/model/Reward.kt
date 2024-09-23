@@ -20,7 +20,6 @@ data class Reward(
     val product: Product,
 
     val rewardDate: LocalDate,
-    val expirationDate: LocalDate,
 
     @Enumerated(EnumType.STRING)
     val status: Status

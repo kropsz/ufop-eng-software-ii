@@ -23,4 +23,12 @@ data class Client(
 
     @OneToMany(mappedBy = "client")
     var rewards: List<Reward>
-)
+) {
+    fun addPoints(points: Int) {
+        this.points += points
+    }
+
+    fun removePoints(points: Int) {
+        this.points -= points
+    }
+}
