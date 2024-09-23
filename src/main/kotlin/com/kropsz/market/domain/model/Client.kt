@@ -22,7 +22,7 @@ data class Client(
     var points: Int,
 
     @OneToMany(mappedBy = "client")
-    var rewards: List<Reward>
+    var rewards: MutableList<Reward> = mutableListOf()
 ) {
     fun addPoints(points: Int) {
         this.points += points
@@ -30,5 +30,9 @@ data class Client(
 
     fun removePoints(points: Int) {
         this.points -= points
+    }
+
+    fun addReward(reward: Reward) {
+        rewards.add(reward)
     }
 }
