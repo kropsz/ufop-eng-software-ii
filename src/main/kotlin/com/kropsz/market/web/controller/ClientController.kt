@@ -1,5 +1,6 @@
 package com.kropsz.market.web.controller
 
+import com.kropsz.market.domain.model.PointsHistory
 import com.kropsz.market.service.ClientService
 import com.kropsz.market.utils.mapper.impl.ClientMapper
 import com.kropsz.market.web.dto.ClientDto
@@ -37,6 +38,16 @@ class ClientController (val clientService: ClientService,
     fun getClient(@PathVariable id: UUID): ResponseEntity<ClientDto> {
         return try {
             val response = clientMapper.toDto(clientService.findById(id))
+            ResponseEntity.status(200).body(response)
+        } catch (e: Exception) {
+            ResponseEntity.status(400).build()
+        }
+    }
+
+    @GetMapping("/points-history/{id}")
+    fun getPointsHistory(@PathVariable id: UUID): ResponseEntity<List<PointsHistory>> {
+        return try {
+            val response = clientService.getPointsHistory(id)
             ResponseEntity.status(200).body(response)
         } catch (e: Exception) {
             ResponseEntity.status(400).build()
