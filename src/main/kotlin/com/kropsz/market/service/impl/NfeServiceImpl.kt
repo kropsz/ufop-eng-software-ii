@@ -1,7 +1,8 @@
 package com.kropsz.market.service.impl
 
+import com.kropsz.market.builder.impl.PointsHistoryBuilder
+import com.kropsz.market.builder.impl.RewardBuilder
 import com.kropsz.market.domain.model.NFE
-import com.kropsz.market.domain.model.PointsHistory
 import com.kropsz.market.domain.model.Reward
 import com.kropsz.market.domain.repository.ClientRepository
 import com.kropsz.market.domain.repository.NfeRepository
@@ -12,7 +13,7 @@ import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 @Service
 class NfeServiceImpl(
@@ -27,11 +28,11 @@ class NfeServiceImpl(
             .orElseThrow { throw EntityNotFoundException("Client not found") }
         client.points += calculatePoints(nfe.value)
 
-        val pointsHistory = PointsHistory(
-            pointsAdded = calculatePoints(nfe.value),
-            nfeId = nfe.id!!,
-            date = LocalDateTime.now()
-        )
+        val pointsHistory = PointsHistoryBuilder()
+            .pointsAdded(calculatePoints(nfe.value))
+            .nfeId(nfe.id!!)
+            .date(LocalDateTime.now())
+            .build()
 
         client.addPointsHistory(pointsHistory)
         clientRepository.save(client)
@@ -40,28 +41,28 @@ class NfeServiceImpl(
     }
 
     override fun exchangePointsForProducts(clientId: UUID, productId: UUID): Boolean {
-       val client = clientRepository.findById(clientId)
-           .orElseThrow { throw EntityNotFoundException("Client not found") }
+        val client = clientRepository.findById(clientId)
+            .orElseThrow { throw EntityNotFoundException("Client not found") }
         val product = productRepository.findById(productId)
             .orElseThrow { throw EntityNotFoundException("Product not found") }
 
         if (client.points >= product.priceInPoints && product.stock > 0) {
             client.points -= product.priceInPoints
-            val reward = Reward(
-                client = client,
-                product = product,
-                rewardDate = LocalDate.now(),
-                status = Reward.Status.PENDING
-            )
+            val reward = RewardBuilder()
+                .client(client)
+                .product(product)
+                .rewardDate(LocalDate.now())
+                .status(Reward.Status.PENDING)
+                .build()
 
             rewardRepository.save(reward)
             client.addReward(reward)
             clientRepository.save(client)
+            return true
         }
 
         return false
     }
-
 
     private fun calculatePoints(value: Double): Int {
         return (value / 10).toInt()
