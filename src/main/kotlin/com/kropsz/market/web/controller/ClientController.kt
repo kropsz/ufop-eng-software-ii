@@ -1,0 +1,46 @@
+package com.kropsz.market.web.controller
+
+import com.kropsz.market.service.ClientService
+import com.kropsz.market.utils.mapper.impl.ClientMapper
+import com.kropsz.market.web.dto.ClientDto
+import com.kropsz.market.web.dto.ClientLogin
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import java.util.*
+
+@RequestMapping("/client")
+@RestController
+class ClientController (val clientService: ClientService,
+    val clientMapper: ClientMapper) {
+
+    @PostMapping("/register")
+    fun registerClient(@RequestBody clientDto: ClientDto): ResponseEntity<ClientDto> {
+        return try {
+            val response = clientMapper.toDto(clientService.create(clientDto))
+            ResponseEntity.status(201).body(response)
+        } catch (e: Exception) {
+            ResponseEntity.status(400).build()
+        }
+    }
+
+    @PostMapping("/login")
+    fun loginClient(@RequestBody clientLogin: ClientLogin): ResponseEntity<ClientDto> {
+        return try {
+            val response = clientMapper.toDto(clientService.login(clientLogin))
+            ResponseEntity.status(200).body(response)
+        } catch (e: Exception) {
+            ResponseEntity.status(400).build()
+        }
+    }
+
+    @GetMapping("/{id}")
+    fun getClient(@PathVariable id: UUID): ResponseEntity<ClientDto> {
+        return try {
+            val response = clientMapper.toDto(clientService.findById(id))
+            ResponseEntity.status(200).body(response)
+        } catch (e: Exception) {
+            ResponseEntity.status(400).build()
+        }
+    }
+
+}
