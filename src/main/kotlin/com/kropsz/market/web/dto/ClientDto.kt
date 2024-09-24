@@ -1,5 +1,6 @@
 package com.kropsz.market.web.dto
 
+import jakarta.validation.constraints.NotNull
 import java.io.Serializable
 
 /**
@@ -8,8 +9,12 @@ import java.io.Serializable
 data class ClientDto(
     val name: String? = null,
     val password: String? = null,
+
+    @NotNull(message = "Email is required")
     val email: String? = null,
     val phone: String? = null,
     val address: String? = null,
+
+    @NotNull(message = "CPF is required")
     val cpf: String? = null
 ) : Serializable

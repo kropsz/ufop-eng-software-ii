@@ -17,7 +17,7 @@ data class Product(
     @Column(name = "price_in_points")
     val priceInPoints: Int,
 
-    val stock: Int,
+    var stock: Int,
 
     @OneToMany(mappedBy = "product")
     val rewards: List<Reward> = listOf()
