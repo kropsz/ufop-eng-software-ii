@@ -40,11 +40,12 @@ class NfeServiceImpl(
 
             client.addPointsHistory(pointsHistory)
             clientRepository.save(client)
-
+            nfe.isUsed = true
+            nfeRepository.save(nfe)
             return "Points added successfully"
         }
 
-        return "NFE is not valid"
+        return "NFE is not valid or is used"
 
     }
 
@@ -56,6 +57,7 @@ class NfeServiceImpl(
 
         if (client.points >= product.priceInPoints && product.stock > 0) {
             client.points -= product.priceInPoints
+            product.stock--
             val reward = RewardBuilder()
                 .client(client)
                 .product(product)
@@ -66,6 +68,7 @@ class NfeServiceImpl(
             rewardRepository.save(reward)
             client.addReward(reward)
             clientRepository.save(client)
+            productRepository.save(product)
             return true
         }
 
@@ -76,9 +79,7 @@ class NfeServiceImpl(
         val nfe = nfeRepository.findById(nfeId)
             .orElseThrow { throw EntityNotFoundException("NFE not found") }
 
-        nfe.isValid = nfe.date.isAfter(LocalDateTime.now().minusDays(7))
-        nfeRepository.save(nfe)
-        return nfe.isValid
+        return nfe.date.isAfter(LocalDateTime.now().minusDays(7)) && !nfe.isUsed
     }
 
     private fun calculatePoints(value: Double): Int {

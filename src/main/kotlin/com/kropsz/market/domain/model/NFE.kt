@@ -22,9 +22,9 @@ data class NFE(
 
     val store: Int,
 
-    var isValid: Boolean,
+    var isUsed: Boolean,
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     val paymentMethod: PaymentMethod
 ){
     enum class PaymentMethod {
