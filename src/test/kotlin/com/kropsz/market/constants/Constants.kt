@@ -1,11 +1,14 @@
 package com.kropsz.market.constants
 
 import com.kropsz.market.domain.model.Client
+import com.kropsz.market.domain.model.NFE
+import com.kropsz.market.domain.model.Product
 import com.kropsz.market.web.dto.ClientDto
 import com.kropsz.market.web.dto.ClientLogin
+import java.time.LocalDateTime
 import java.util.*
 
-class ClientConstants {
+class Constants {
 
     val CLIENT_DTO = ClientDto(
         name = "John Doe",
@@ -24,7 +27,7 @@ class ClientConstants {
         phone = "1234567890",
         address = "123 Main St",
         cpf = "12345678901",
-        points = 0,
+        points = 100,
         rewards = mutableListOf(),
         pointsHistory = mutableListOf()
     )
@@ -32,4 +35,23 @@ class ClientConstants {
     val CLIENT_LOGIN = ClientLogin(
         email = "john@email.com",
         password = "123456")
+
+
+    val NFE_CONSTANT = NFE(
+        id = UUID.randomUUID(),
+        value = 100.0,
+        date = LocalDateTime.now(),
+        isUsed = false,
+        store = 1,
+        paymentMethod = NFE.PaymentMethod.CREDIT_CARD
+    )
+
+    val PRODUCT = Product(
+        id = UUID.randomUUID(),
+        name = "Product",
+        description = "Product description",
+        priceInPoints = 50,
+        stock = 10
+    )
+
 }

@@ -1,6 +1,6 @@
 package com.kropsz.market.service
 
-import com.kropsz.market.constants.ClientConstants
+import com.kropsz.market.constants.Constants
 import com.kropsz.market.domain.repository.ClientRepository
 import com.kropsz.market.service.impl.ClientServiceImpl
 import com.kropsz.market.utils.mapper.impl.ClientMapper
@@ -24,7 +24,7 @@ class ClientServiceTest {
     @InjectMocks
     lateinit var clientService: ClientServiceImpl
 
-    private val constants = ClientConstants()
+    private val constants = Constants()
 
 
 
