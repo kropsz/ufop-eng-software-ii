@@ -1,6 +1,7 @@
 package com.kropsz.market.service.impl
 
 import com.kropsz.market.domain.model.Client
+import com.kropsz.market.domain.model.PointsHistory
 import com.kropsz.market.domain.repository.ClientRepository
 import com.kropsz.market.service.ClientService
 import com.kropsz.market.utils.mapper.impl.ClientMapper
@@ -29,6 +30,12 @@ class ClientServiceImpl (
     override fun findById(id: UUID): Client {
         return clientRepository.findById(id)
             .orElseThrow { throw EntityNotFoundException("Client not found") }
+    }
+
+    override fun getPointsHistory(id: UUID): List<PointsHistory> {
+        return clientRepository.findById(id)
+            .orElseThrow { throw EntityNotFoundException("Client not found") }
+            .pointsHistory
     }
 }
 

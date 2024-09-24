@@ -22,5 +22,14 @@ data class NFE(
 
     val store: Int,
 
-    val paymentMethod: Int
-)
+    var isValid: Boolean,
+
+    @Enumerated
+    val paymentMethod: PaymentMethod
+){
+    enum class PaymentMethod {
+        CREDIT_CARD,
+        DEBIT_CARD,
+        CASH
+    }
+}
