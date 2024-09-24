@@ -2,7 +2,6 @@ package com.kropsz.market.service.impl
 
 import com.kropsz.market.builder.impl.PointsHistoryBuilder
 import com.kropsz.market.builder.impl.RewardBuilder
-import com.kropsz.market.domain.model.NFE
 import com.kropsz.market.domain.model.Reward
 import com.kropsz.market.domain.repository.ClientRepository
 import com.kropsz.market.domain.repository.NfeRepository
@@ -23,21 +22,30 @@ class NfeServiceImpl(
     val rewardRepository: RewardRepository
 ) : NfeService {
 
-    override fun processNfe(clientID: UUID, nfe: NFE): NFE {
+    override fun processNfe(clientID: UUID, nfeId: UUID): String {
         val client = clientRepository.findById(clientID)
             .orElseThrow { throw EntityNotFoundException("Client not found") }
-        client.points += calculatePoints(nfe.value)
 
-        val pointsHistory = PointsHistoryBuilder()
-            .pointsAdded(calculatePoints(nfe.value))
-            .nfeId(nfe.id!!)
-            .date(LocalDateTime.now())
-            .build()
+        val nfe = nfeRepository.findById(nfeId)
+            .orElseThrow { throw EntityNotFoundException("NFE not found") }
 
-        client.addPointsHistory(pointsHistory)
-        clientRepository.save(client)
+        if (verifyNfe(nfeId)) {
+            client.points += calculatePoints(nfe.value)
 
-        return nfeRepository.save(nfe)
+            val pointsHistory = PointsHistoryBuilder()
+                .pointsAdded(calculatePoints(nfe.value))
+                .nfeId(nfeId)
+                .date(LocalDateTime.now())
+                .build()
+
+            client.addPointsHistory(pointsHistory)
+            clientRepository.save(client)
+
+            return "Points added successfully"
+        }
+
+        return "NFE is not valid"
+
     }
 
     override fun exchangePointsForProducts(clientId: UUID, productId: UUID): Boolean {
@@ -62,6 +70,15 @@ class NfeServiceImpl(
         }
 
         return false
+    }
+
+    override fun verifyNfe(nfeId: UUID): Boolean {
+        val nfe = nfeRepository.findById(nfeId)
+            .orElseThrow { throw EntityNotFoundException("NFE not found") }
+
+        nfe.isValid = nfe.date.isAfter(LocalDateTime.now().minusDays(7))
+        nfeRepository.save(nfe)
+        return nfe.isValid
     }
 
     private fun calculatePoints(value: Double): Int {
