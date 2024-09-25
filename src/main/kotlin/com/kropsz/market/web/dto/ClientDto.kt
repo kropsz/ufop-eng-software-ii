@@ -13,7 +13,6 @@ data class ClientDto(
     @NotNull(message = "Email is required")
     val email: String? = null,
     val phone: String? = null,
-    val address: String? = null,
 
     @NotNull(message = "CPF is required")
     val cpf: String? = null

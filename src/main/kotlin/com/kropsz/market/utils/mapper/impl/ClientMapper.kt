@@ -13,7 +13,6 @@ class ClientMapper: Mapper<ClientDto, Client> {
             password = dto.password!!,
             email = dto.email!!,
             phone = dto.phone!!,
-            address = dto.address!!,
             cpf = dto.cpf!!,
             points = 0,
             rewards = mutableListOf()
@@ -25,7 +24,6 @@ class ClientMapper: Mapper<ClientDto, Client> {
             entity.name,
             entity.email,
             entity.phone,
-            entity.address,
             entity.cpf
         )
     }
