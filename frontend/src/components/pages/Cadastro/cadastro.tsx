@@ -33,6 +33,8 @@ const Cadastro: React.FC = () => {
     try {
       const response = await axios.post('http://localhost:8080/client/register', data);
       console.log('Cadastro realizado com sucesso:', response.data);
+      alert('Cadastro realizado com sucesso!');
+      window.location.href = '/home';
     } catch (error) {
       console.error('Erro ao realizar cadastro:', error);
     }
