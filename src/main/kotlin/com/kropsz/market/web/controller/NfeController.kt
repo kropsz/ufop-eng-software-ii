@@ -1,11 +1,9 @@
 package com.kropsz.market.web.controller
 
 import com.kropsz.market.service.NfeService
+import com.kropsz.market.web.dto.ProductDto
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
@@ -17,9 +15,9 @@ class NfeController (val nfeService: NfeService) {
         return ResponseEntity.ok(nfeService.processNfe(clientID, nfeId))
     }
 
-    @PostMapping("/exchange/{clientId}/{productId}")
-    fun exchangePointsForProducts(@PathVariable clientId: UUID, @PathVariable productId: UUID): ResponseEntity<Boolean> {
-        return ResponseEntity.ok(nfeService.exchangePointsForProducts(clientId, productId))
+    @PostMapping("/exchange/{clientId}")
+    fun exchangePointsForProducts(@PathVariable clientId: UUID, @RequestBody productDto: ProductDto): ResponseEntity<Boolean> {
+        return ResponseEntity.ok(nfeService.exchangePointsForProducts(clientId, productDto.products))
     }
 
 }

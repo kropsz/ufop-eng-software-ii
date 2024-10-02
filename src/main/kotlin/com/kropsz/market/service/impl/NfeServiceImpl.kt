@@ -2,6 +2,7 @@ package com.kropsz.market.service.impl
 
 import com.kropsz.market.builder.impl.PointsHistoryBuilder
 import com.kropsz.market.builder.impl.RewardBuilder
+import com.kropsz.market.domain.model.Product
 import com.kropsz.market.domain.model.Reward
 import com.kropsz.market.domain.repository.ClientRepository
 import com.kropsz.market.domain.repository.NfeRepository
@@ -49,26 +50,44 @@ class NfeServiceImpl(
 
     }
 
-    override fun exchangePointsForProducts(clientId: UUID, productId: UUID): Boolean {
+    override fun exchangePointsForProducts(clientId: UUID, productsId: MutableList<UUID>): Boolean {
         val client = clientRepository.findById(clientId)
             .orElseThrow { throw EntityNotFoundException("Client not found") }
-        val product = productRepository.findById(productId)
-            .orElseThrow { throw EntityNotFoundException("Product not found") }
+        println(client.points)
+        val products = mutableListOf<Product>()
 
-        if (client.points >= product.priceInPoints && product.stock > 0) {
-            client.points -= product.priceInPoints
-            product.stock--
+        val totalPoints = productsId.stream()
+            .map { productId ->
+                val product =
+                    productRepository.findById(productId).orElseThrow { EntityNotFoundException("Product not found") }
+                products.add(product)
+                product
+            }
+            .mapToInt { product -> product.priceInPoints }
+            .sum()
+
+        if (client.points >= totalPoints) {
             val reward = RewardBuilder()
                 .client(client)
-                .product(product)
+                .products(products)
                 .rewardDate(LocalDate.now())
                 .status(Reward.Status.PENDING)
                 .build()
 
             rewardRepository.save(reward)
+
+            products.stream().forEach { product ->
+                product.stock--
+                productRepository.save(product)
+            }
+
+            client.points -= totalPoints
+            println(client.points)
+
             client.addReward(reward)
             clientRepository.save(client)
-            productRepository.save(product)
+            println(client.points)
+
             return true
         }
 

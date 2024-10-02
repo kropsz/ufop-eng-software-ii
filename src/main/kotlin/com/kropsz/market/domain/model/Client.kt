@@ -14,7 +14,6 @@ data class Client(
     var password: String,
     val email: String,
     val phone: String,
-    val address: String,
 
     @Column(name = "cpf", unique = true)
     val cpf: String,

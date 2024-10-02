@@ -1,5 +1,6 @@
 package com.kropsz.market.domain.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import java.util.*
 
@@ -19,6 +20,10 @@ data class Product(
 
     var stock: Int,
 
-    @OneToMany(mappedBy = "product")
+    @Column(name = "image_url")
+    val imageUrl: String? = null,
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "products")
     val rewards: List<Reward> = listOf()
 )

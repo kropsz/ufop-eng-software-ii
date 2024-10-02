@@ -13,7 +13,6 @@ class ClientMapper: Mapper<ClientDto, Client> {
             password = dto.password!!,
             email = dto.email!!,
             phone = dto.phone!!,
-            address = dto.address!!,
             cpf = dto.cpf!!,
             points = 0,
             rewards = mutableListOf()
@@ -22,11 +21,13 @@ class ClientMapper: Mapper<ClientDto, Client> {
 
     override fun toDto(entity: Client): ClientDto {
         return ClientDto(
+            entity.id,
             entity.name,
+            entity.password,
             entity.email,
             entity.phone,
-            entity.address,
-            entity.cpf
+            entity.cpf,
+            entity.points
         )
     }
 }
