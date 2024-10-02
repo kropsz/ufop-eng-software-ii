@@ -15,9 +15,13 @@ data class Reward(
     @JoinColumn(name = "client_id")
     val client: Client,
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    val product: Product,
+    @ManyToMany
+    @JoinTable(
+        name = "reward_product",
+        joinColumns = [JoinColumn(name = "reward_id")],
+        inverseJoinColumns = [JoinColumn(name = "product_id")]
+    )
+    val products: List<Product> = listOf(),
 
     val rewardDate: LocalDate,
 

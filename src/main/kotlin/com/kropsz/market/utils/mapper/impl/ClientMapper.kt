@@ -21,10 +21,13 @@ class ClientMapper: Mapper<ClientDto, Client> {
 
     override fun toDto(entity: Client): ClientDto {
         return ClientDto(
+            entity.id,
             entity.name,
+            entity.password,
             entity.email,
             entity.phone,
-            entity.cpf
+            entity.cpf,
+            entity.points
         )
     }
 }
