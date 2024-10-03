@@ -23,7 +23,7 @@ class NfeServiceImpl(
     val rewardRepository: RewardRepository
 ) : NfeService {
 
-    override fun processNfe(clientID: UUID, nfeId: UUID): String {
+    override fun processNfe(clientID: UUID, nfeId: UUID): Boolean {
         val client = clientRepository.findById(clientID)
             .orElseThrow { throw EntityNotFoundException("Client not found") }
 
@@ -43,10 +43,10 @@ class NfeServiceImpl(
             clientRepository.save(client)
             nfe.isUsed = true
             nfeRepository.save(nfe)
-            return "Points added successfully"
+            return true
         }
 
-        return "NFE is not valid or is used"
+        return false
 
     }
 

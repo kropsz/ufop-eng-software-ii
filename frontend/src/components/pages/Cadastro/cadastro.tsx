@@ -1,17 +1,17 @@
-import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
-import { 
-  Container, 
-  Titulo, 
-  Formulario, 
-  Campo, 
-  Label, 
-  Input, 
-  Erro, 
+import React from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import {
   Botao,
-  TextoLink,
+  Campo,
+  Container,
+  Erro,
+  Formulario,
+  Input,
+  Label,
   LinkStyled,
+  TextoLink,
+  Titulo,
 } from './cadastro.styles';
 
 interface IFormInput {
@@ -34,14 +34,14 @@ const Cadastro: React.FC = () => {
       const response = await axios.post('http://localhost:8080/client/register', data);
       console.log('Cadastro realizado com sucesso:', response.data);
       alert('Cadastro realizado com sucesso!');
-      window.location.href = '/home';
+      window.location.href = '/';
     } catch (error) {
       console.error('Erro ao realizar cadastro:', error);
     }
   };
 
   const handleLoginClick = () => {
-    window.location.href = '/login'; 
+    window.location.href = '/'; 
   };
 
   return (

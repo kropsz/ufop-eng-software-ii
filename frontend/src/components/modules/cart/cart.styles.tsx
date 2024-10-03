@@ -76,10 +76,15 @@ export const ModalContent = styled.div`
   text-align: center;
 `;
 
+export const ModalText = styled.p`
+  margin: 10px 0;
+  color: black;
+`;
+
 export const CloseButton = styled.button`
   margin-top: 10px;
   padding: 5px 10px;
-  background: #007bff;
+  background: #46207C;
   color: white;
   border: none;
   border-radius: 5px;

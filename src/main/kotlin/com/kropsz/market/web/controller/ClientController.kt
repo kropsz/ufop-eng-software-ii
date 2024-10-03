@@ -54,4 +54,14 @@ class ClientController (val clientService: ClientService,
         }
     }
 
+    @GetMapping("/points/{id}")
+    fun getPointsByUser(@PathVariable id: UUID): ResponseEntity<Int> {
+        return try {
+            val response = clientService.getPointsByUser(id)
+            ResponseEntity.status(200).body(response)
+        } catch (e: Exception) {
+            ResponseEntity.status(400).build()
+        }
+    }
+
 }

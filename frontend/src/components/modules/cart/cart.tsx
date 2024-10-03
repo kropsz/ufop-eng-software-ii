@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
 import axios from 'axios';
+import React, { useState } from 'react';
 import {
+  CloseButton,
   Container,
   ItemContainer,
   ItemImage,
+  Modal,
+  ModalContent,
+  ModalText,
   QuantityContainer,
+  RedeemButton,
   RemoveButton,
   SummaryContainer,
   SummaryItem,
-  RedeemButton,
-  Modal,
-  ModalContent,
-  CloseButton
 } from './cart.styles';
 
 interface Product {
@@ -106,8 +107,8 @@ const ShoppingCart: React.FC<{ cart: CartItem[], setCart: React.Dispatch<React.S
       {showModal && (
         <Modal>
           <ModalContent>
-            <h2>Sucesso!</h2>
-            <p>Recompensa retirada com sucesso.</p>
+            <ModalText>Sucesso!</ModalText>
+            <ModalText>Recompensa retirada com sucesso.</ModalText>
             <CloseButton onClick={closeModal}>Fechar</CloseButton>
           </ModalContent>
         </Modal>

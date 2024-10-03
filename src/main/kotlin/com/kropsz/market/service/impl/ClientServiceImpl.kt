@@ -37,5 +37,12 @@ class ClientServiceImpl (
             .orElseThrow { throw EntityNotFoundException("Client not found") }
             .pointsHistory
     }
+
+    override fun getPointsByUser(id: UUID): Int {
+        return clientRepository.findById(id)
+            .orElseThrow { throw EntityNotFoundException("Client not found") }
+            .points
+    }
+
 }
 
