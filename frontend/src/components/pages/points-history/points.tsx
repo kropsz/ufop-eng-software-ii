@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Container,
-  Title,
   Table,
+  TableCell,
   TableHead,
-  TableRow,
   TableHeader,
-  TableCell
+  TableRow,
+  Title
 } from './points.styles';
 
 interface PointsHistory {
@@ -17,7 +17,7 @@ interface PointsHistory {
   date: string;
 }
 
-const PointsHistoryPage: React.FC = () => {
+const PointsHistoryPage: React.FC = ( ) => {
   const { id } = useParams<{ id: string }>();
   const [pointsHistory, setPointsHistory] = useState<PointsHistory[]>([]);
 
@@ -39,9 +39,9 @@ const PointsHistoryPage: React.FC = () => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableHeader>Points Added</TableHeader>
-            <TableHeader>NFE ID</TableHeader>
-            <TableHeader>Date</TableHeader>
+            <TableHeader>Pontos adicionados</TableHeader>
+            <TableHeader>NFE</TableHeader>
+            <TableHeader>Data de registro</TableHeader>
           </TableRow>
         </TableHead>
         <tbody>

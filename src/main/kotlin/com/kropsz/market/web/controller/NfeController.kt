@@ -12,7 +12,9 @@ class NfeController (val nfeService: NfeService) {
 
     @PostMapping("/process/{clientID}/{nfeId}")
     fun processNfe(@PathVariable clientID: UUID, @PathVariable nfeId: UUID): ResponseEntity<String> {
-        return ResponseEntity.ok(nfeService.processNfe(clientID, nfeId))
+        val result = nfeService.processNfe(clientID, nfeId)
+        return if (result) ResponseEntity.ok("NFE processed successfully")
+        else ResponseEntity.badRequest().body("NFE already used")
     }
 
     @PostMapping("/exchange/{clientId}")

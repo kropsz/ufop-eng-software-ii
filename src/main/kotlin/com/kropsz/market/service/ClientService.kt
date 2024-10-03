@@ -15,4 +15,6 @@ interface ClientService {
     fun findById(id: UUID): Client
 
     fun getPointsHistory(id: UUID): List<PointsHistory>
+
+    fun getPointsByUser(id: UUID): Int
 }

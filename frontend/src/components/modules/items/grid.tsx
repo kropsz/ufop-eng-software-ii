@@ -2,13 +2,13 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import ShoppingCart from '../cart/cart.tsx';
 import {
+  AddToCartButton,
   GridContainer,
   MainContainer,
   ProductCard,
   ProductPrice,
   ProductStock,
   ProductTitle,
-  AddToCartButton,
 } from './grid.styles.tsx';
 
 interface Product {
@@ -67,7 +67,7 @@ const ProductGrid: React.FC<{ user: User }> = ({ user }) => {
       <GridContainer>
         {products.map((product) => (
           <ProductCard key={product.id}>
-            <img src={product.imageUrl} alt={product.name} />
+            <img src={product.imageUrl} alt={product.name} width={200} />
             <ProductTitle>{product.name}</ProductTitle>
             <ProductPrice>{`Pts. ${product.priceInPoints}`}</ProductPrice>
             <ProductStock>{`Stock: ${product.stock}`}</ProductStock>
