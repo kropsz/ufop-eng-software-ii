@@ -1,7 +1,9 @@
 package com.kropsz.market.constants
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.kropsz.market.domain.model.Client
 import com.kropsz.market.domain.model.NFE
+import com.kropsz.market.domain.model.PointsHistory
 import com.kropsz.market.domain.model.Product
 import com.kropsz.market.web.dto.ClientDto
 import com.kropsz.market.web.dto.ClientLogin
@@ -15,7 +17,6 @@ class Constants {
         password = "123456",
         email = "john@email.com",
         phone = "1234567890",
-        address = "123 Main St",
         cpf = "12345678901"
     )
 
@@ -25,7 +26,6 @@ class Constants {
         password = "123456",
         email = "john@email.com",
         phone = "1234567890",
-        address = "123 Main St",
         cpf = "12345678901",
         points = 100,
         rewards = mutableListOf(),
@@ -52,6 +52,15 @@ class Constants {
         description = "Product description",
         priceInPoints = 50,
         stock = 10
+    )
+
+    val CLIENT_DTO_JSON: String = jacksonObjectMapper().writeValueAsString(CLIENT_DTO)
+    val CLIENT_LOGIN_JSON: String = jacksonObjectMapper().writeValueAsString(CLIENT_LOGIN)
+
+    val POINTS_HISTORY = PointsHistory(
+        pointsAdded = 100,
+        nfeId = UUID.randomUUID(),
+        date = LocalDateTime.now()
     )
 
 }

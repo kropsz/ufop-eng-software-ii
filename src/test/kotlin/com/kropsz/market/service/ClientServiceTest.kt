@@ -4,13 +4,17 @@ import com.kropsz.market.constants.Constants
 import com.kropsz.market.domain.repository.ClientRepository
 import com.kropsz.market.service.impl.ClientServiceImpl
 import com.kropsz.market.utils.mapper.impl.ClientMapper
+import jakarta.persistence.EntityNotFoundException
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 import org.mockito.junit.jupiter.MockitoExtension
+import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 class ClientServiceTest {
@@ -44,7 +48,6 @@ class ClientServiceTest {
         assertEquals(clientDto.password, createdClient.password)
         assertEquals(clientDto.email, createdClient.email)
         assertEquals(clientDto.phone, createdClient.phone)
-        assertEquals(clientDto.address, createdClient.address)
         assertEquals(clientDto.cpf, createdClient.cpf)
     }
 
@@ -104,6 +107,18 @@ class ClientServiceTest {
                 assertEquals("Client not found", e.message)
             }
 
+    }
+
+    @Test
+    fun `should throw EntityNotFoundException for an invalid client ID`() {
+        val clientId = UUID.randomUUID()
+
+        `when`(clientRepository.findById(clientId)).thenReturn(Optional.empty())
+
+        assertThrows(EntityNotFoundException::class.java) {
+            clientService.getPointsHistory(clientId)
+        }
+        verify(clientRepository).findById(clientId)
     }
 
 }

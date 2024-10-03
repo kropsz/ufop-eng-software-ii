@@ -75,10 +75,12 @@ class NfeServiceTest {
     fun `should exchange points for products`() {
         val client = constants.CLIENT
         val product = constants.PRODUCT
+        val productsId = mutableListOf(product.id!!)
+
         `when`(clientRepository.findById(client.id!!)).thenReturn(Optional.of(client))
         `when`(productRepository.findById(product.id!!)).thenReturn(Optional.of(product))
 
-        val result = nfeService.exchangePointsForProducts(client.id!!, product.id!!)
+        val result = nfeService.exchangePointsForProducts(client.id!!, productsId)
 
         assertTrue(result)
         assertEquals(50, client.points)
@@ -92,12 +94,14 @@ class NfeServiceTest {
     fun `should not exchange points for products if points are insufficient or stock is zero`() {
         val client = constants.CLIENT
         val product = constants.PRODUCT
+        val productsId = mutableListOf(product.id!!)
+
         client.points = 0
         product.stock = 0
         `when`(clientRepository.findById(client.id!!)).thenReturn(Optional.of(client))
         `when`(productRepository.findById(product.id!!)).thenReturn(Optional.of(product))
 
-        val result = nfeService.exchangePointsForProducts(client.id!!, product.id!!)
+        val result = nfeService.exchangePointsForProducts(client.id!!, productsId)
 
         assertFalse(result)
         assertEquals(0, client.points)
