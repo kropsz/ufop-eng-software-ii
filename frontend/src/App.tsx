@@ -7,14 +7,15 @@ import PointsHistoryPage from './components/pages/points-history/points.tsx';
 
 function App() {
   return (
-   <BrowserRouter>
+  <BrowserRouter>
     <Routes>
-      <Route path="/cadastro" element={<Cadastro />} />
       <Route path="/" element={<Login />} />
+      <Route path="/cadastro" element={<Cadastro />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/home" element={<Main />} />
       <Route path="/points-history/:id" element={<PointsHistoryPage />} />
     </Routes>
-    </BrowserRouter>
+  </BrowserRouter>
   );
 }
 
